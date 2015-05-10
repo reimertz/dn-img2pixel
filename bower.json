@@ -1,0 +1,16 @@
+{
+  "name": "hc-org",
+  "private": true,
+  "dependencies": {
+    "sass-mediaqueries": "~1.5.1",
+    "normalize.css": "~3.0.3",
+    "open-sans-fontface": "~1.4.0",
+    "modernizr": "~2.8.1",
+    "dropzone": "~4.0.1"
+  },
+  "overrides": {
+    "sass-mediaqueries": {
+      "ignore": true
+    }
+  }
+}

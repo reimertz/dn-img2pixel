@@ -1,0 +1,67 @@
+html {
+  font-size: ($html-font-size - 4) !important;
+
+  @include max-screen(500px) {
+    font-size: ($html-font-size - 5) !important;
+  }
+}
+
+body {
+  font-size: $body-font-size;
+  font-family: $font-sans;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  text-align: center;
+}
+
+h1, h2 {
+  font-family: $font-sans;
+  font-size: 4rem;
+  font-weight: 700;
+
+  margin-top: 2rem;
+}
+
+h2 {
+  font-size: 1.7rem;
+}
+
+h3 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+a, a:visited {
+  text-decoration: none;
+  cursor: pointer;
+  color: $color-link;
+  opacity: 0.7;
+  transition: opacity 0.5s;
+
+}
+
+a:hover, a.active {
+  color: $color-link-hover;
+  opacity: 1;
+}
+
+a:visited {
+  color: $color-link;
+}
+
+p {
+  font-family: $font-sans;
+  padding: 0.7rem;
+}
+
+
+main > header > *:nth-child(2),
+main > header > *:nth-child(3),
+main > header > *:nth-child(4) {
+  opacity: 0 !important;
+  animation:  fade-in-animation 500ms ease-in-out both;
+  animation-delay: 0;
+}

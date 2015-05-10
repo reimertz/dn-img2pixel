@@ -1,0 +1,34 @@
+// Config
+// $support-for-ie = false
+// $vendor-prefixes = webkit moz ms official
+
+// Colors
+//$hc-orange: #f38846;
+//$hc-yellow: #fdd220;
+//$hc-red: #f34646;
+
+
+$color-bg: #2d72d9;
+$color-default : white;
+$color-gray : #CCC;
+$color-border : #e3e3e3;
+$color-navy : hsl(210, 25%, 12%);
+$color-link : darken(white, 1);
+$color-link-hover : white;
+
+// Typography
+$html-font-size: 16px;
+$body-font-size: 62.25%;
+$line-height : 1.6em;
+$font-sans : "open sans", Helvetica, Arial, sans-serif;
+// $font-serif : 'Merriweather', Georgia, "Times New Roman", serif;
+// $font-mono : "Source Code Pro", Monaco, Menlo, Consolas, monospace;
+// $font-title : Lato, $font-sans;
+
+
+// Media queries
+$mq-mobile : "screen and (max-width: 768px)";
+$mq-normal : "screen and (min-width: 769px)";
+$mq-large : "screen and (min-width: 900px)";
+$mq-xlarge : "screen and (min-width: 110px)";
+$mq-tablet : "screen and (min-width: 480px)";
