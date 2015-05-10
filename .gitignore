@@ -1,6 +1,0 @@
-node_modules
-.tmp
-.publish
-.sass-cache
-bower_components
-test/bower_components
