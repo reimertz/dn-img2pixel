@@ -9,7 +9,6 @@ window.onbeforeunload = function(e) {
 var headerTarget = document.getElementById("header-drop-box"),
     headerCanvas = document.getElementById("header-canvas"),
     headerStepper = document.getElementById('header-stepper'),
-    headerCodeTemplate = headerFunction.toString(),
     headerCodeBox = document.querySelector('.header-code-box'),
     headerCells = headerTarget.querySelectorAll('.Cell'),
     headerImage,
@@ -17,20 +16,19 @@ var headerTarget = document.getElementById("header-drop-box"),
     portraitTarget = document.getElementById("portrait-drop-box"),
     portraitCanvas = document.getElementById("portrait-canvas"),
     portraitStepper = document.getElementById('portrait-stepper'),
-    portraitCodeTemplate = portraitFunction.toString(),
     portraitCodeBox = document.querySelector('.portrait-code-box'),
     portraitCells = portraitTarget.querySelectorAll('.Cell'),
     portraitImage,
+
+    codeTemplate = img2pixel.toString(),
 
     actions = {
       firstPixelIsBlack: false,
       swapAt: []
     };
 
-
-
 var loadHeaderImage = function(src){
-  renderHeader.value = 125;
+  headerStepper.value = 125;
   headerImage = new Image();
   headerImage.onload = function(){
     renderHeader(120);
@@ -41,7 +39,7 @@ var loadHeaderImage = function(src){
 };
 
 function renderHeader(threshold){
-  imageToCanvasToCells(headerImage, headerCanvas, threshold, headerCodeTemplate, headerCodeBox, headerCells);
+  imageToCanvasToCells(headerImage, headerCanvas, threshold, headerCodeBox, headerCells);
 }
 
 var loadPortraitImage = function(src){
@@ -56,11 +54,10 @@ var loadPortraitImage = function(src){
 };
 
 function renderPortrait(threshold){
-  imageToCanvasToCells(portraitImage, portraitCanvas, threshold, portraitCodeTemplate, portraitCodeBox, portraitCells);
+  imageToCanvasToCells(portraitImage, portraitCanvas, threshold, portraitCodeBox, portraitCells);
 }
 
-function imageToCanvasToCells(img, canvas, threshold, codeTemplate, codebox, cells){
-
+function imageToCanvasToCells(img, canvas, threshold, codebox, cells){
     var ctx = canvas.getContext("2d");
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -103,10 +100,15 @@ function imageToCanvasToCells(img, canvas, threshold, codeTemplate, codebox, cel
       }
     }
 
+    var newTemplate = codeTemplate;
+    newTemplate = newTemplate.replace('\'{firstPixelIsBlack}\'', actions.firstPixelIsBlack);
+    newTemplate = newTemplate.replace('\'{swapAt}\'', actions.swapAt.toString());
 
-    codeTemplate = codeTemplate.replace('{firstPixelIsBlack}', actions.firstPixelIsBlack);
-    codeTemplate = codeTemplate.replace('{swapAt}', actions.swapAt.toString());
-    codebox.innerHTML = codeTemplate + ((codeTemplate.indexOf('headerFunction') > -1) ? ';headerFunction();' : 'portraitFunction();');
+
+    var selector = (img.width>20) ? '.PixelCoverPhoto .Cell' : '#ProfilePicture .Cell';
+    newTemplate = newTemplate.replace('\'{selector}\'', selector);
+
+    codebox.innerHTML = '(' + newTemplate + ')()';
 }
 
 var readImage = function(imgFile, isHeader){
@@ -164,14 +166,12 @@ var stepInterval = setInterval(function(){
   }
 }, 50);
 
-
-
-function headerFunction(){
+function img2pixel(){
   var actions = {
-        firstPixelIsBlack:{firstPixelIsBlack},
-        swapAt:[{swapAt}]
+        firstPixelIsBlack:'{firstPixelIsBlack}',
+        swapAt:['{swapAt}']
       },
-      cells = document.querySelectorAll('.PixelCoverPhoto .Cell'),
+      cells = document.querySelectorAll('{selector}'),
       options = {
         'view': window,
         'bubbles': true,
@@ -187,7 +187,7 @@ function headerFunction(){
       cell.dispatchEvent(up);
     }
 
-    function updateHeaderPhoto(){
+    function addNewPixels(){
       var colorIsBlack = actions.firstPixelIsBlack;
 
       for(var i = 0; i < cells.length-1;i++){
@@ -200,7 +200,7 @@ function headerFunction(){
       }
     }
 
-    function resetHeaderPhoto(){
+    function resetPixels(){
       for(var i = 0; i < cells.length-1;i++){
         if(cells[i].style.backgroundColor.indexOf('0') > -1) {
          swapPixel(cells[i]);
@@ -208,54 +208,8 @@ function headerFunction(){
       }
     }
 
-    resetHeaderPhoto();
-    updateHeaderPhoto();
-}
-
-function portraitFunction(){
-  var actions = {
-        firstPixelIsBlack:{firstPixelIsBlack},
-        swapAt:[{swapAt}]
-      },
-      cells = document.querySelectorAll('#ProfilePicture .Cell'),
-      options = {
-        'view': window,
-        'bubbles': true,
-        'cancelable': true
-      },
-      enter = new MouseEvent('mouseenter', options),
-      down = new MouseEvent('mousedown', options),
-      up = new MouseEvent('mouseup', options);
-
-    function swapPixel(cell) {
-      cell.dispatchEvent(enter);
-      cell.dispatchEvent(down);
-      cell.dispatchEvent(up);
-    }
-
-    function updateProfilePhoto(){
-      var colorIsBlack = actions.firstPixelIsBlack;
-
-      for(var i = 0; i < cells.length-1;i++){
-        if(colorIsBlack) swapPixel(cells[i]);
-
-        if(i === actions.swapAt[0]){
-          actions.swapAt.shift();
-          colorIsBlack = !colorIsBlack;
-        }
-      }
-    }
-
-    function resetProfilePhoto(){
-      for(var i = 0; i < cells.length-1;i++){
-        if(cells[i].style.backgroundColor.indexOf('0') > -1) {
-         swapPixel(cells[i]);
-        }
-      }
-    }
-
-    resetProfilePhoto();
-    updateProfilePhoto();
+    resetPixels();
+    addNewPixels();
 }
 
 //http://stackoverflow.com/a/20079910/3809029
@@ -275,6 +229,3 @@ function selectText(query) {
     window.getSelection().addRange( range );
   }
 }
-/* jshint devel:true */
-"use strict";
-
