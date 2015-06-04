@@ -1,5 +1,5 @@
 {
-  "name": "hc-org",
+  "name": "dn-img2pixel",
   "private": true,
   "dependencies": {
     "sass-mediaqueries": "~1.5.1",
