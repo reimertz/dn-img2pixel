@@ -1,5 +1,5 @@
 # dn-img2pixel
-
+First version of this: http://www.reimertz.co/thoughts/get-the-coolest-designer-news-profile/
 
 ## Install
 ```bash
